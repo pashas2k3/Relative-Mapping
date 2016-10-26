@@ -1,3 +1,4 @@
+-- Tables to be created for the database
 CREATE TABLE RelativeDetails (
 	id INTEGER PRIMARY KEY ,
 	first_name TEXT NOT NULL,
@@ -28,3 +29,4 @@ CREATE TABLE NeighborRelationship(
        FOREIGN KEY(neighbor1) REFERENCES RelativeDetails(Id),
        FOREIGN KEY(neighbor2)  REFERENCES RelativeDetails(Id)
 );
+-- 

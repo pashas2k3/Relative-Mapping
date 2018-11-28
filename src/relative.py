@@ -4,6 +4,12 @@ from datetime import datetime
 
 class Relative(object):
 
+    @classmethod
+    def from_dict(cls, d):
+        allowed_keys = ('name', 'dob', 'nickname', 'gender')
+        df = {k: v for k,v in d.items() if k in allowed_keys}
+        return cls(**df)
+
     def __init__(self, name, dob, nickname, gender):
         assert name and dob and nickname and gender
         self.name = name
@@ -34,6 +40,7 @@ class Relative(object):
     def date(self, date):
         datetime.strptime(date, '%Y-%m-%d')
         self._date = date
+
 
     def asdict_attr(self):
         return {

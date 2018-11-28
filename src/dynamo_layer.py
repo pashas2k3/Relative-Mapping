@@ -1,9 +1,7 @@
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from relative import Relative
-from child_relation import Relation
-from collections import namedtuple
-
+from relation import Relation
 import unittest
 
 def get_ddb():
@@ -28,15 +26,15 @@ def get_relative_by_name(name):
     response = get_relative_table().scan(FilterExpression=Attr('name').contains(name))
     items = response['Items']
     if items:
-        return [namedtuple('Relative', item.keys())(**item) for item in items]
+        return [Relative.from_dict(item) for item in items]
     return None
 
 
 def get_relative_by_id(id):
     response = get_relative_table().get_item(Key={'id': id})
-    item = response['Item']
-    if item:
-        return namedtuple('Relative', item.keys())(**item)
+    items = response['Item']
+    if items:
+        return [Relative.from_dict(item) for item in items]
     return None
 
 

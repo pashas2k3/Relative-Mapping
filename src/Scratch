@@ -1,0 +1,17 @@
+1. Relation schema
+2. DynamoDB local
+
+
+(1st order)
+Relations by (with date field)
+1. Birth
+2. Marriage
+
+
+(2nd order)Gets more complicated - so will tackle only if needed in future
+Relations by
+1. Neighborhood
+
+
+Run the following command in ~/Desktop/LocalDynamoDB ->
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb

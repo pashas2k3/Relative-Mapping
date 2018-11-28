@@ -1,6 +1,11 @@
 import operator
 
 class Relation:
+    @classmethod
+    def from_dict(cls, d):
+        allowed_keys = ('src', 'relation', 'dest', 'event_date')
+        df = {k: v for k,v in d.items() if k in allowed_keys}
+        return cls(**df)
 
     def __init__(self, src, relation, dest, event_date):
         # NEED OTHER VALIDATIONS

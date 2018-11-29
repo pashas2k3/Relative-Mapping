@@ -1,10 +1,11 @@
 import operator
 
+
 class Relation:
     @classmethod
     def from_dict(cls, d):
         allowed_keys = ('src', 'relation', 'dest', 'event_date')
-        df = {k: v for k,v in d.items() if k in allowed_keys}
+        df = {k: v for k, v in d.items() if k in allowed_keys}
         return cls(**df)
 
     def __init__(self, src, relation, dest, event_date):
@@ -27,6 +28,12 @@ class Relation:
         if relation not in ('SPOUSE', 'PARENT', 'CHILD'):
             raise ValueError('Current recognized relation values are SPOUSE, PARENT, CHILD')
         self._relation = relation
+
+    @classmethod
+    def get_distance(cls, relation):
+        if relation not in ('SPOUSE', 'PARENT', 'CHILD'):
+            raise ValueError('Current recognized relation values are SPOUSE, PARENT, CHILD')
+        return 1
 
     def asdict_attr(self):
         return {

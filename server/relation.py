@@ -8,6 +8,11 @@ class Relation:
         df = {k: v for k, v in d.items() if k in allowed_keys}
         return cls(**df)
 
+    '''
+    TODO
+    event_date -> start (rename) of relationship
+    end - Date the relationship ended 
+    '''
     def __init__(self, src, relation, dest, event_date):
         # NEED OTHER VALIDATIONS
         # Spouse, Parent, Child have to have some age gaps
@@ -19,7 +24,17 @@ class Relation:
         self.src = src
         self.relation = relation
         self.dest = dest
-        self.event_date = event_date # Primarily for debugging
+        self.event_date = event_date # Primarily for debugging or validation
+
+    def flip_relation(self):
+        if self.relation == 'PARENT':
+            relation = 'CHILD'
+        elif self.relation == 'CHILD':
+            relation = 'PARENT'
+        else:
+            relation = 'SPOUSE'
+        return Relation(self.dest, relation, self.src, self.event_date)
+
 
     relation = property(operator.attrgetter('_relation'))
 

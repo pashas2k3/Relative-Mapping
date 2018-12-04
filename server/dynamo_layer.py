@@ -2,6 +2,7 @@ import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from relative import Relative
 from relation import Relation
+from util import reset_all_tables
 import unittest
 
 def get_ddb():
@@ -32,9 +33,9 @@ def get_relative_by_name(name):
 
 def get_relative_by_id(id):
     response = get_relative_table().get_item(Key={'id': id})
-    items = response['Item']
-    if items:
-        return [Relative.from_dict(item) for item in items]
+    item = response['Item']
+    if item:
+        return Relative.from_dict(item)
     return None
 
 
@@ -64,44 +65,7 @@ def add_relation(relation):
 
 
 if __name__ == '__main__':
-    def create_relation_table(ddb):
-        print('creating relation table ')
-        ddb.create_table(TableName='relation', KeySchema=[{
-            'AttributeName': 'src',
-            'KeyType': 'HASH'
-        }, {
-            'AttributeName': 'dest',
-            'KeyType': 'RANGE'
-        }], AttributeDefinitions=[
-            {
-                'AttributeName': 'src',
-                'AttributeType': 'S'
-            }, {
-                'AttributeName': 'dest',
-                'AttributeType': 'S'
-            }
-        ], ProvisionedThroughput={
-            'ReadCapacityUnits': 10,
-            'WriteCapacityUnits': 10})
 
-    def create_relative_table(ddb):
-        print('creating relative table ')
-        ddb.create_table(TableName='relative', KeySchema=[{
-            'AttributeName': 'id',
-            'KeyType': 'HASH'
-        }], AttributeDefinitions=[
-            {
-                'AttributeName': 'id',
-                'AttributeType': 'S'
-            }
-        ], ProvisionedThroughput={
-            'ReadCapacityUnits': 10,
-            'WriteCapacityUnits': 10})
-
-    def delete_tables(ddb):
-        print('deleting All tables ')
-        for table in ddb.tables.all():
-            table.delete()
 
     def relative_equality(one, other):
         return one.id == other.id and one.gender == other.gender \
@@ -110,9 +74,7 @@ if __name__ == '__main__':
 
     # Create a relatives and relation table
     ddb = get_ddb()
-    delete_tables(ddb)
-    create_relative_table(ddb)
-    create_relation_table(ddb)
+    reset_all_tables(ddb)
 
     test = unittest.TestCase()
 

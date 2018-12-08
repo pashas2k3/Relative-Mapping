@@ -3,9 +3,6 @@ Transform: 'AWS::Serverless-2016-10-31'
 Description: Lambda function for Python server
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-Globals:
-    Function:
-        Timeout: 3
 
 Resources:
   MapRelation:
@@ -42,9 +39,9 @@ Resources:
 
 Outputs:
 
-    HelloWorldFunction:
-      Description: "Hello World Lambda Function ARN"
-      Value: !GetAtt HelloWorldFunction.Arn
+    MapRelation:
+      Description: "Map Relation Lambda Function ARN"
+      Value: !GetAtt MapRelation.Arn
 
     HelloWorldFunctionIamRole:
       Description: "Implicit IAM Role created for Hello World function"

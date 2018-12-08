@@ -5,7 +5,9 @@ from relative import Relative
 from util import reset_all_tables
 
 
-def find_relation(src, dest):
+def find_relation(param):
+    src = param.src
+    dest = param.dest
     graph = Graph()
 
     def loader(curr):
@@ -23,8 +25,6 @@ def find_relation(src, dest):
 def get_relative_info(name):
     return map(lambda r: r.asdict_attr(), get_relative_by_name(name))
 
-
-# TODO
 def add_individual(d):
     add_relative(Relative.from_dict(d))
 
@@ -80,10 +80,10 @@ if __name__=="__main__":
             print(get_relative_by_id(relative).name + '- is ' + relation + ' of ->')
         print(dest.name)
 
-    path, relation = find_relation(child1.id, child2.id)
+    path, relation = find_relation({'src':child1.id, 'dest':child2.id})
     testCase.assertEqual(relation, ('CHILD', 'PARENT'))
     print_relation(path, relation, child1, child2)
 
-    path, relation = find_relation(child2.id, uncle.id)
+    path, relation = find_relation({'src':child2.id, 'dest':uncle.id})
     testCase.assertEqual(relation, ('CHILD', 'SPOUSE', 'PARENT', 'PARENT'))
     print_relation(path, relation, child2, uncle)

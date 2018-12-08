@@ -1,0 +1,51 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Lambda function for Python server
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+    Function:
+        Timeout: 3
+
+Resources:
+  MapRelation:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.6
+      CodeUri: python_server/
+      Description: ''
+      MemorySize: 128
+      Timeout: 3
+      Role: 'arn:aws:iam::783632689354:role/RelativeMappingLambdaRole'
+      Events:
+        UpdateRelative:
+          Type: Api
+          Properties:
+            Path: /relative
+            Method: POST
+        GetRelative:
+          Type: Api
+          Properties:
+            Path: /relative
+            Method: GET
+        UpdateRelation:
+          Type: Api
+          Properties:
+            Path: /relation
+            Method: POST
+        GetRelation:
+          Type: Api
+          Properties:
+            Path: /relation
+            Method: GET
+
+Outputs:
+
+    HelloWorldFunction:
+      Description: "Hello World Lambda Function ARN"
+      Value: !GetAtt HelloWorldFunction.Arn
+
+    HelloWorldFunctionIamRole:
+      Description: "Implicit IAM Role created for Hello World function"
+      Value: !GetAtt HelloWorldFunctionRole.Arn

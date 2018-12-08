@@ -1,2 +1,3 @@
-Relative-Mapping.iml
-.idea/
+.idea
+*.iml
+server/__pycache__/*.pyc
